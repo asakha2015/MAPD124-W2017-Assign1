@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  MAPD124-W2017-Assign1
 //
-//  Created by Andy on 2017-01-22.
+//  Created by Reza on 2017-01-22.
 //  Copyright © 2017 Reza. All rights reserved.
 //
 
