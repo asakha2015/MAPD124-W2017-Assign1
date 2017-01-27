@@ -9,17 +9,109 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    
+    //calculator display
+    @IBOutlet weak var calc: UILabel!
+    
+    //initilize varaiables
+    var currentOperations: String? = nil
+    var firstNumber: String? = nil
+    var secondNumber: String? = nil
+    var equalCheck: Bool = false
+    
+    
+    // Number buttons
+    @IBAction func numberButton(_ sender: UIButton) {
+        if (equalCheck) {
+            calc.text = "0"
+            currentOperations = nil
+            firstNumber = nil
+            secondNumber = nil
+            equalCheck = false
+        }
+        if (calc.text == "0") {
+            calc.text = sender.currentTitle!
+        }
+            
+            // Don't allow multiple dots in single operand
+        else if (sender.currentTitle! == "." && firstNumber != nil && currentOperations == nil && firstNumber!.contains(".")) {return}
+        else if (sender.currentTitle! == "." && secondNumber != nil && secondNumber!.contains(".")) {return}
+        else {
+            calc.text = calc.text! + sender.currentTitle!
+        }
+        // If operator not set, update first operand else, update second operand
+        if (currentOperations == nil) {
+            firstNumber = calc.text!
+        } else {
+            if (secondNumber == nil) {
+                secondNumber = calc.text!.components(separatedBy: currentOperations!)[1]
+                calc.text = secondNumber!
+            } else {secondNumber = calc.text!}
+        }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    // operators buttons
+    @IBAction func operationButton(_ sender: UIButton) {
+        if (firstNumber == nil) {return} // Cannot select operator until first operand is nil
+        if (secondNumber == nil) {
+            // If second operand is nil, either do ... or add selected operator to calc
+            if (currentOperations == nil) {
+                currentOperations = sender.currentTitle!
+                firstNumber = calc.text!
+                
+                calc.text = currentOperations!
+            } else {
+                calc.text = calc.text!.replacingOccurrences(of: currentOperations!, with: sender.currentTitle!)
+                currentOperations = sender.currentTitle!
+            }
+            // If all is set, do calculation and set answer as first operand, and add new selected operator to that
+        } else {
+            firstNumber = "\(calculate(firstNumber: Double(firstNumber!)!, secondNumber: Double(secondNumber!)!, op: currentOperations!))"
+            secondNumber = nil
+            currentOperations = sender.currentTitle!
+            calc.text = firstNumber! + currentOperations!
+        }
     }
-
-
+    
+    // equal button
+    @IBAction func equalButton(_ sender: UIButton) {
+        
+        if (firstNumber == nil || currentOperations == nil || secondNumber == nil) {return}
+        firstNumber = "\(calculate(firstNumber: Double(firstNumber!)!, secondNumber: Double(secondNumber!)!, op: currentOperations!))"
+        currentOperations = nil
+        secondNumber = nil
+        calc.text = firstNumber
+        equalCheck = true
+    }
+    
+    // Clear button
+    @IBAction func ClearButton(_ sender: UIButton) {
+        
+        calc.text = "0"
+        currentOperations = nil
+        firstNumber = nil
+        secondNumber = nil
+        
+    }
+    
+    
+    // returns answer
+    func calculate(firstNumber: Double, secondNumber: Double, op: String) -> Double {
+        switch op {
+        case "+":
+            return firstNumber + secondNumber // Adds
+        case "-":
+            return firstNumber - secondNumber // Subtracts
+        case "×":
+            return firstNumber * secondNumber // Multiplies
+        case "÷":
+            return firstNumber / secondNumber // Divides
+        case "%":
+            return firstNumber * secondNumber / 100 // Modulo
+            case "+/_":
+            return pow(Double(firstNumber), Double(secondNumber)) //under construction
+        default:
+            return 0
+        }
+    }
 }
-
