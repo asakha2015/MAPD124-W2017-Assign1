@@ -108,8 +108,8 @@ class ViewController: UIViewController {
             return firstNumber / secondNumber // Divides
         case "%":
             return firstNumber * secondNumber / 100 // Modulo
-            case "+/_":
-            return pow(Double(firstNumber), Double(secondNumber)) //under construction
+            case "^":
+            return pow(Double(firstNumber), Double(secondNumber)) //Power button
         default:
             return 0
         }
