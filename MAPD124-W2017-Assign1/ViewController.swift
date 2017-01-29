@@ -20,6 +20,27 @@ class ViewController: UIViewController {
     var equalCheck: Bool = false
     
     
+    // equal button
+    @IBAction func equalButton(_ sender: UIButton) {
+        
+        if (firstNumber == nil || currentOperations == nil || secondNumber == nil) {return}
+        firstNumber = "\(calculate(firstNumber: Double(firstNumber!)!, secondNumber: Double(secondNumber!)!, op: currentOperations!))"
+        currentOperations = nil
+        secondNumber = nil
+        calc.text = firstNumber
+        equalCheck = true
+    }
+    
+    // Clear button
+    @IBAction func ClearButton(_ sender: UIButton) {
+        
+        calc.text = "0"
+        currentOperations = nil
+        firstNumber = nil
+        secondNumber = nil
+        
+    }
+    
     // Number buttons
     @IBAction func numberButton(_ sender: UIButton) {
         if (equalCheck) {
@@ -50,7 +71,7 @@ class ViewController: UIViewController {
         }
     }
     
-    // operators buttons
+    // operator button
     @IBAction func operationButton(_ sender: UIButton) {
         if (firstNumber == nil) {return} // Cannot select operator until first operand is nil
         if (secondNumber == nil) {
@@ -73,29 +94,8 @@ class ViewController: UIViewController {
         }
     }
     
-    // equal button
-    @IBAction func equalButton(_ sender: UIButton) {
-        
-        if (firstNumber == nil || currentOperations == nil || secondNumber == nil) {return}
-        firstNumber = "\(calculate(firstNumber: Double(firstNumber!)!, secondNumber: Double(secondNumber!)!, op: currentOperations!))"
-        currentOperations = nil
-        secondNumber = nil
-        calc.text = firstNumber
-        equalCheck = true
-    }
     
-    // Clear button
-    @IBAction func ClearButton(_ sender: UIButton) {
-        
-        calc.text = "0"
-        currentOperations = nil
-        firstNumber = nil
-        secondNumber = nil
-        
-    }
-    
-    
-    // returns answer
+    // return answer
     func calculate(firstNumber: Double, secondNumber: Double, op: String) -> Double {
         switch op {
         case "+":
@@ -107,7 +107,7 @@ class ViewController: UIViewController {
         case "÷":
             return firstNumber / secondNumber // Divides
         case "%":
-            return firstNumber * secondNumber / 100 // Modulo
+            return firstNumber * secondNumber / 100 // Percent
             case "^":
             return pow(Double(firstNumber), Double(secondNumber)) //Power button
         default:
