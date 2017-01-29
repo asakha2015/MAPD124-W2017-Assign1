@@ -292,6 +292,7 @@
 				A161E2BB1E356D0A001357DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
